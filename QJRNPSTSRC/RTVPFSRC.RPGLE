@@ -12,24 +12,17 @@
       *            OUTFILE(QTEMP/RTVPFSRC);                           */
       *   >>EXECUTE<<                                                 */
       * >>END-PRE-COMPILER<<                                          */
+       /copy qcpysrc,cpyctlstm
+
        Dcl-F QDDSSRC usage(*output) RENAME(QDDSSRC:SOURCE);
        Dcl-F RTVPFSRC  usage(*input);
        Dcl-F RTVPFSRC1 usage(*input);
-       Dcl-Ds SRCDTA;
-         T char(1) DIM(80);
-       End-ds;
 
-       Dcl-ds XHFLDP;
-         U char(1) DIM(2);
-       end-ds;
+       Dcl-s XHFLDP Char(2);    //U
 
-       Dcl-ds XHFLDB;
-         V char(1) DIM(5);
-       End-ds;
+       Dcl-s XHFLDB Char(5);    //V
 
-       Dcl-ds XHFLDD;
-        W char(1) DIM(2);
-       End-ds;
+       Dcl-s XHFLDD Char(2);    //W
 
        Dcl-s ED1 char(1) DIM(10) CTDATA PERRCD(10);
        Dcl-s x packed(2:0);
@@ -40,32 +33,30 @@
        Dcl-s WKA036 char(36);
 
       // format fichier
-
        READ RTVPFSRC;
        Dow not %eof(RTVPFSRC);
          READ RTVPFSRC1;
          *IN41 = %EOF;
-         Reset T;
-         %subarr(T:19:%len( %trim(WHFLDI)))=WHFLDI;
+         Reset SRCDTA;
+         %Subst(SRCDTA:19:%len(WHFLDI))=WHFLDI;
          XHFLDP=%char(WHFLDP);
          XHFLDB=%char(WHFLDB);
          XHFLDD=%char(WHFLDD);
 
          // cadrage droite zero suppress
-         IF U(1) = '0';
-           Reset U(1);
+         IF %Subst(XHFLDP:1:1) = '0';
+           %Subst(XHFLDP:1:1)=' ';
          ENDIF;
 
          For X=1 to 4;
-           y=+1;
-           *in40=%lookup(V(X):ED1)<>0;
-           If not *in40;
-             Reset V(X);
+           y=%lookup(%subst(XHFLDB:X:1):ED1);
+           If y=0;
+             %subst(XHFLDB:X:1)=' ';
            EndIf;
          Endfor;
 
-         IF W(1) = '0';
-           Reset W(1);
+         IF %Subst(XHFLDD:1:1) = '0';
+           %Subst(XHFLDD:1:1) = ' ';
          ENDIF;
 
          SELECT;
@@ -83,18 +74,18 @@
            Reset wHFLDP;
          // zone alpha
          WHEN WHFLDD = 0;
-           %Subarr(T:30:%len(%trim(XHFLDB)))=XHFLDB;
-           Reset T(36);
+           %subst(SRCDTA:30:%Len(XHFLDB))=XHFLDB;
+           %subst(SRCDTA:36) = ' ';
          WHEN WHFLDD = WHFLDB;
-           %subarr(T:33:%len(%trim(XHFLDD)))=XHFLDD;
-           %subarr(T:36:%len(%trim(XHFLDP)))=XHFLDP;
+           %subst(SRCDTA:33:%Len(XHFLDD))=XHFLDD;
+           %subst(SRCDTA:36:%Len(XHFLDP))=XHFLDP;
          // zone packee
          WHEN WHFLDD <> WHFLDB;
-           %subarr(T:33:%len(%trim(XHFLDD)))=XHFLDD;
-           %subarr(T:36:%len(%trim(XHFLDP)))=XHFLDP;
+           %subst(SRCDTA:33:%Len(XHFLDD))=XHFLDD;
+           %subst(SRCDTA:36:%Len(XHFLDP))=XHFLDP;
          ENDSL;
 
-         %subarr(T:35:%len(%trim(WHFLDT)))=WHFLDT;
+         %subst(SRCDTA:35:%Len(WHFLDT))=WHFLDT;
 
          Reset WKA036;
          IF WHFTXT <> *BLANKS;
@@ -107,19 +98,19 @@
              *in23=*on;
              WKA036='TEXT(''' + WKA027;
              WKA036=WKA036 + '+';
-             %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+             %subst(SRCDTA:45:%Len(WKA036))=WKA036;
 
              EXSR WTR;
 
              Reset WKA036;
              WKA036=WKA023 + ''')';
-             %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+             %subst(SRCDTA:45:%Len(WKA036))=WKA036;
 
              EXSR WTR;
            ELSE;
              WKA036='TEXT(''' + WHFTXT;
              WKA036=WKA036 + ''')';
-             %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+             %subst(SRCDTA:45:%Len(WKA036))=WKA036;
              EXSR WTR;
            ENDIF;
          ENDIF;
@@ -134,7 +125,7 @@
            ELSE;
              WKA036=WKA036 + ''')';
            ENDIF;
-           %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+           %subst(SRCDTA:45:%Len(WKA036))=WKA036;
            EXSR WTR;
          ENDIF;
 
@@ -149,7 +140,7 @@
              WKA036=WKA036 + ''')';
            ENDIF;
 
-           %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+           %subst(SRCDTA:45:%Len(WKA036))=WKA036;
            EXSR WTR;
          ENDIF;
 
@@ -158,7 +149,7 @@
            Reset WKA036;
            WKA036='''' + WHCHD3;
            WKA036=WKA036 +  ''')';
-           %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+           %subst(SRCDTA:45:%Len(WKA036))=WKA036;
            EXSR WTR;
          ENDIF;
          // Format de la date.
@@ -166,7 +157,7 @@
          IF WHFMT <> *BLANKS
          AND WHFLDT = 'L';
            WKA036='DATFMT('+WHFMT+')';
-           %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+           %subst(SRCDTA:45:%Len(WKA036))=WKA036;
            EXSR WTR;
          ENDIF;
 
@@ -174,7 +165,7 @@
          IF WHFMT <> *BLANKS
          AND WHFLDT = 'T';
            WKA036='TIMFMT('+WHFMT+')';
-           %subarr(T:45:%len(%trim(WKA036)))=WKA036;
+           %subst(SRCDTA:45:%Len(WKA036))=WKA036;
            EXSR WTR;
          ENDIF;
 
@@ -189,20 +180,20 @@
 
        BEGSR WTR;
          SRCSEQ+=10;
-         T(6)='A';
+         %Subst(SRCDTA:6:1)='A';
          WRITE SOURCE;
-         Reset T;
+         Reset SRCDTA;
        ENDSR;
 
        //
        BEGSR ROOT;
          Dou *in41;
            IF APKEYF <> *BLANKS;
-             T(17)='K';
-             %subarr(T:9:%len(%trim(APKEYF)))=APKEYF;
+             %Subst(SRCDTA:17:1)='K';
+             %subst(SRCDTA:9:%Len(APKEYF))=APKEYF;
 
              IF APKSEQ = 'D';
-               %Subarr(T:45:7)='DESCEND';
+               %subst(SRCDTA:45:7)='DESCEND';
              ENDIF;
              EXSR WTR;
            ENDIF;
