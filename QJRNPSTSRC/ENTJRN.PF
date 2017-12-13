@@ -1,0 +1,57 @@
+     A                                      REF(FPREPERT)
+     A          R QJORDJE
+     A                                      TEXT('Journal Entries')
+     A            JOENTL         5S 0       TEXT('Length of entry')
+     A                                      COLHDG('ENTRY' +
+     A                                      'LENGTH')
+     A            JOSEQN        10S 0       TEXT('Sequence number')
+     A                                      COLHDG('SEQUENCE' +
+     A                                      'NUMBER')
+     A            JOCODE         1A         TEXT('Journal Code')
+     A                                      COLHDG('CODE')
+     A            JOENTT         2A         TEXT('Entry Type')
+     A                                      COLHDG('TYPE')
+     A            JODATE         6A         TEXT('Date of entry: Job date for+
+     A                                      mat')
+     A                                      COLHDG('DATE')
+     A            JOTIME         6S 0       TEXT('Time of entry: hour/minute/+
+     A                                      second')
+     A                                      COLHDG('TIME')
+     A            JOJOB         10A         TEXT('Name of Job')
+     A                                      COLHDG('JOB' +
+     A                                      'NAME')
+     A            JOUSER        10A         TEXT('Name of User')
+     A                                      COLHDG('USER' +
+     A                                      'NAME')
+     A            JONBR          6S 0       TEXT('Number of Job')
+     A                                      COLHDG('JOB' +
+     A                                      'NUMBER')
+     A            JOPGM         10A         TEXT('Name of Program')
+     A                                      COLHDG('PROGRAM' +
+     A                                      'NAME')
+     A            JOOBJ         10A         TEXT('Name of Object')
+     A                                      COLHDG('OBJECT' +
+     A                                      'NAME')
+     A            JOLIB         10A         TEXT('Objects Library')
+     A                                      COLHDG('LIBRARY' +
+     A                                      'NAME')
+     A            JOMBR         10A         TEXT('Name of Member')
+     A                                      COLHDG('MEMBER' +
+     A                                      'NAME')
+     A            JOCTRR        10S 0       TEXT('Count or relative record nu+
+     A                                      mber changed')
+     A                                      COLHDG('COUNT/' +
+     A                                      'RRN')
+     A            JOFLAG         1A         TEXT('Flag: 1 or 0')
+     A                                      COLHDG('FLAG')
+     A            JOCCID        10S 0       TEXT('Commit cycle identifier')
+     A                                      COLHDG('COMMIT' +
+     A                                      'CYCLE ID')
+     A            JOINCDAT       1A         TEXT('Incomplete Data: 1 or 0')
+     A                                      COLHDG('INCOMPLETE' +
+     A                                      'DATA')
+     A            JOMINESD       1A         TEXT('Minimized ESD: 0, 1, or 2')
+     A                                      COLHDG('MINIMIZED' +
+     A                                      'ESD')
+     A            JORES          6A         TEXT('Not used')
+     A                                      COLHDG('RESERVED')

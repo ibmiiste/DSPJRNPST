@@ -1,0 +1,197 @@
+             PGM        PARM(&QJRN &QFILE &QFROMTIME &QTOTIME &PGM &QRCVRNG1 &QRCVRNG2 +
+                          &FROMENTLRG &TOENTLRG &QJOB)
+
+             DCL        VAR(&QJRN) TYPE(*CHAR) LEN(20)
+             DCL        VAR(&JRN) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&BIBJRN) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&QFILE) TYPE(*CHAR) LEN(30)
+             DCL        VAR(&FIC) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FICJRN) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&BIBFIC) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&MBR) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&BIBOBJ) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJ) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&TYPOBJ) TYPE(*CHAR) LEN(7)
+             DCL        VAR(&MBROBJ) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OBJPATH) TYPE(*CHAR) LEN(50)
+             DCL        VAR(&INCLOBJ) TYPE(*CHAR) LEN(8) VALUE('*INCLUDE')
+             DCL        VAR(&SUBTREE) TYPE(*CHAR) LEN(5) VALUE('*NONE')
+             DCL        VAR(&MASQUE) TYPE(*CHAR) LEN(450) VALUE('*')
+             DCL        VAR(&INCMASQ) TYPE(*CHAR) LEN(8) VALUE('*INCLUDE')
+             DCL        VAR(&QRCVRNG1) TYPE(*CHAR) LEN(20)
+             DCL        VAR(&RCVRNG1) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&BIBRCV1) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&QRCVRNG2) TYPE(*CHAR) LEN(20)
+             DCL        VAR(&RCVRNG2) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&BIBRCV2) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FROMENTLRG) tyPE(*CHAR) LEN(25)
+             DCL        VAR(&QFROMTIME) TYPE(*CHAR) LEN(20)
+             DCL        VAR(&FROMTIME) TYPE(*CHAR) LEN(8)
+             DCL        VAR(&FROMDATE) TYPE(*CHAR) LEN(12)
+             DCL        VAR(&TOENTLRG) TYPE(*CHAR) LEN(25)
+             DCL        VAR(&QTOTIME) TYPE(*CHAR) LEN(20)
+             DCL        VAR(&TOTIME) TYPE(*CHAR) LEN(8)
+             DCL        VAR(&TODATE) TYPE(*CHAR) LEN(12)
+             DCL        VAR(&NBRENT) TYPE(*CHAR) LEN(10) value('*ALL')
+             DCL        VAR(&CDJRN) TYPE(*CHAR) LEN(50)  value('*ALL')
+             DCL        VAR(&ENTTYP) TYPE(*CHAR) LEN(50) value('*ALL')
+             DCL        VAR(&QJOB) TYPE(*CHAR) LEN(26)
+             DCL        VAR(&NUMJOB) TYPE(*CHAR) LEN(6)
+             DCL        VAR(&NOMJOB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&PRF) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&PGM) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&CCIDLRG) TYPE(*CHAR) LEN(24) value('*ALL')
+             DCL        VAR(&DEPENT) TYPE(*CHAR) LEN(5) value('*ALL')
+             DCL        VAR(&OUTFMT) TYPE(*CHAR) LEN(5) value('*CHAR')
+             DCL        VAR(&JRNID) TYPE(*CHAR) LEN(5)
+             DCL        VAR(&INCHIDENT) TYPE(*CHAR) LEN(4) value('*NO')
+             DCL        VAR(&OUTPUT) TYPE(*CHAR) LEN(7) value('*')
+             DCL        VAR(&OUTFILFMT) TYPE(*CHAR) LEN(6) value('*TYPE1')
+             DCL        VAR(&BIBOUTF) TYPE(*CHAR) LEN(10) value('QTEMP')
+             DCL        VAR(&OUTFILE) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&OUTMBR) TYPE(*CHAR) LEN(10) value('*FIRST')
+             DCL        VAR(&REPLACE) TYPE(*CHAR) LEN(8) value('*REPLACE')
+             DCL        VAR(&ENTDTALEN) TYPE(*CHAR) LEN(10) value('*CALC')
+             DCL        VAR(&LNGENTDTA) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&LNGAENTDTA) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&NULLINDLEN) TYPE(*CHAR) LEN(10) value('*OUTFILFMT')
+             DCL        VAR(&LNGNULLIND) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&LNGANULLIN) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&INCENT) TYPE(*CHAR) LEN(10) value('*CONFIRMED')
+             DCL        VAR(&FROMENT) TYPE(*CHAR) LEN(16) value('*FIRST')
+             DCL        VAR(&TOENT) TYPE(*CHAR) LEN(16) value('*LAST')
+             DCL        VAR(&CMTCYCID) TYPE(*CHAR) LEN(16) value('*ALL')
+             DCL        VAR(&ASPDEV) TYPE(*CHAR) LEN(9) value('*')
+             DCL        VAR(&CMD) TYPE(*CHAR) LEN(500)
+             DCL        VAR(&LNGCMD) TYPE(*DEC) LEN(15 5) VALUE(500)
+             DCL        VAR(&TEXT) TYPE(*CHAR) LEN(50)
+             DCL        VAR(&QUOTE) TYPE(*CHAR) LEN(3) VALUE('''')
+             DCL        VAR(&MSGID) TYPE(*CHAR) LEN(7)
+             DCL        VAR(&MSG) TYPE(*CHAR) LEN(200)
+             DCL        VAR(&MSGDTA) TYPE(*CHAR) LEN(200)
+             DCL        VAR(&MSGF) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&MSGL) TYPE(*CHAR) LEN(10)
+             MONMSG     MSGID(CPF0000) EXEC(GOTO CMDLBL(ERROR))
+
+             CHGVAR     VAR(&BIBJRN) VALUE(%SST(&qjrn 11 10))
+             CHGVAR     VAR(&JRN) VALUE(%SST(&qjrn 1 10))
+
+             CHGVAR     VAR(&BIBfic) VALUE(%SST(&qfile 21 10))
+             CHGVAR     VAR(&fic) VALUE(%SST(&qfile 1 10))
+             CHGVAR     VAR(&mbr) VALUE(%SST(&qfile 11 10))
+
+             CHGVAR     VAR(&FROMDATE) VALUE(%SST(&QFROMTIME 1 10))
+             CHGVAR     VAR(&FROMTIME) VALUE(%SST(&QFROMTIME 11 8))
+
+             CHGVAR     VAR(&TODATE) VALUE(%SST(&QTOTIME 1 10))
+             CHGVAR     VAR(&TOTIME) VALUE(%SST(&QTOTIME 11 8))
+
+             CHGVAR     VAR(&RCVRNG1) VALUE(%SST(&QRCVRNG1  1 10))
+             CHGVAR     VAR(&BIBRCV1) VALUE(%SST(&QRCVRNG1 11 10))
+
+             CHGVAR     VAR(&RCVRNG2) VALUE(%SST(&QRCVRNG2  1 10))
+             CHGVAR     VAR(&BIBRCV2) VALUE(%SST(&QRCVRNG2 11 10))
+
+             CHGVAR     VAR(&NOMJOB) VALUE(%SST(&QJOB  1 10))
+             CHGVAR     VAR(&PRF) VALUE(%SST(&Qjob  11 10))
+             CHGVAR     VAR(&NUMJOB) VALUE(%SST(&QJOB 21 6))
+
+             CHGVAR     VAR(&FICJRN) VALUE(%SST(&FIC 1 7) *TCAT 'JRN')
+
+             DLTF       FILE(QTEMP/&FICJRN)
+             MONMSG     MSGID(CPF0000)
+             DLTF       FILE(QTEMP/QDDSSRC)
+             MONMSG     MSGID(CPF0000)
+             CRTSRCPF   FILE(QTEMP/QDDSSRC) RCDLEN(112)
+
+             DLTF       FILE(QTEMP/RTVPFSRC1)
+             MONMSG     MSGID(CPF0000)
+
+ CHARGE:     DSPFD      FILE(&BIBFIC/&FIC) TYPE(*ACCPTH) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/RTVPFSRC1)
+
+             DLTF       FILE(QTEMP/RTVPFSRC)
+             MONMSG     MSGID(CPF2105)
+
+             RTVMBRD    FILE(&BIBFIC/&FIC) TEXT(&TEXT)
+
+             DSPFFD     FILE(&BIBFIC/&FIC) OUTPUT(*OUTFILE) OUTFILE(QTEMP/RTVPFSRC)
+
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+                SNDUSRMSG  MSG(&BIBFIC *TCAT '/' *TCAT &FIC *BCAT 'n''existe pas')
+                GOTO       CMDLBL(FIN)
+             ENDDO
+
+             ADDPFM     FILE(QTEMP/QDDSSRC) MBR(&FIC) TEXT(&TEXT) SRCTYPE(PF)
+             OVRDBF     FILE(QDDSSRC) TOFILE(QTEMP/QDDSSRC) MBR(&FIC)
+
+             CALL       PGM(RTVPFSRC)
+
+             DLTOVR     FILE(*ALL)
+             CPYF       FROMFILE(QGPL/QDDSSRC) TOFILE(QTEMP/QDDSSRC) FROMMBR(ENTJRN) +
+                          TOMBR(ENTJRN) MBROPT(*ADD) CRTFILE(*YES) FMTOPT(*MAP *DROP)
+
+             CPYF       FROMFILE(QTEMP/QDDSSRC) TOFILE(QTEMP/QDDSSRC) FROMMBR(&FIC) +
+                          TOMBR(ENTJRN) MBROPT(*ADD) FMTOPT(*MAP *DROP)
+
+             CRTPF      FILE(QTEMP/&FICJRN) SRCFILE(QTEMP/QDDSSRC) SRCMBR(ENTJRN) SIZE(*NOMAX)
+
+             CHGVAR     VAR(&CMD) VALUE('DSPJRN JRN(' *TCAT &BIBJRN *TCAT '/' *TCAT &JRN *TCAT +
+                          ') FILE((' *TCAT &BIBFIC *TCAT '/' *TCAT &FIC *BCAT &MBR *TCAT ')) +
+                          OUTPUT(*OUTFILE) OUTFILE(QTEMP/' *TCAT &FIC *TCAT ') +
+                          ENTDTALEN(*CALC)')
+
+             IF         COND(&NOMJOB *NE *ALL) THEN(CHGVAR VAR(&CMD) VALUE(&CMD *BCAT 'JOB(' +
+                          *TCAT &NUMJOB *TCAT '/' *TCAT &PRF *TCAT '/' *TCAT &NOMJOB *TCAT +
+                          ')'))
+
+             IF         COND(&PGM *NE *ALL) THEN(CHGVAR VAR(&CMD) VALUE(&CMD *BCAT 'PGM(' +
+                          *TCAT &PGM *TCAT ')'))
+
+             IF         COND(&FROMENTLRG *NE '*NONE') THEN(CHGVAR VAR(&CMD) VALUE(&CMD *BCAT +
+                          'FROMENTLRG(' *TCAT &FROMENTLRG *TCAT ')'))
+
+             IF         COND(&TOENTLRG *NE '*NONE') THEN(CHGVAR VAR(&CMD) VALUE(&CMD *BCAT +
+                          'TOENTLRG(' *TCAT &TOENTLRG *TCAT ')'))
+
+             IF         COND(&FROMDATE *NE '*CURRENT') THEN(DO)
+                CHGVAR     VAR(&CMD) VALUE(&CMD *BCAT 'FROMTIME(''' *TCAT &FROMDATE *BCAT +
+                             &FROMTIME *TCAT ''')')
+             ENDDO
+
+             IF         COND(&TODATE *NE '*NONE') THEN(DO)
+                CHGVAR     VAR(&CMD) VALUE(&CMD *BCAT 'TOTIME(''' *TCAT &TODATE *BCAT &TOTIME +
+                             *TCAT ''')')
+             ENDDO
+
+             IF         COND(&RCVRNG1 *NE *CURRENT) THEN(do)
+                CHGVAR     VAR(&CMD) VALUE(&CMD *BCAT 'RCVRNG(' *TCAT &BIBRCV1 *TCAT '/' *TCAT +
+                             &RCVRNG1)
+                IF         COND(&RCVRNG2 *NE '          ') THEN(CHGVAR VAR(&CMD) VALUE(&CMD +
+                             *BCAT &BIBRCV2 *TCAT '/' *TCAT &RCVRNG2 ))
+                CHGVAR     VAR(&CMD) VALUE(&CMD *TCAT ')')
+             ENDDO
+
+             CALL       PGM(QCMDEXC) PARM(&CMD &LNGCMD)
+
+             CPYF       FROMFILE(QTEMP/&FIC) TOFILE(QTEMP/&FICJRN) MBROPT(*REPLACE) +
+                          FMTOPT(*NOCHK) ERRLVL(*NOMAX)
+
+             RUNQRY     QRYFILE((QTEMP/&FICJRN *FIRST)) RCDSLT(*YES)
+             GOTO       CMDLBL(FIN)
+ error:
+ MSGD:       RCVMSG     MSGTYPE(*DIAG) MSG(&MSG) MSGDTA(&MSGDTA) MSGID(&MSGID) MSGF(&MSGF) +
+                          MSGFLIB(&MSGL)
+             IF         COND(&MSGID *NE ' ') THEN(DO)
+                SNDUSRMSG  MSGID(&MSGID) MSGF(&MSGL/&MSGF) MSGDTA(&MSGDTA) MSGTYPE(*INFO)
+                MONMSG     MSGID(CPF0000)
+                GOTO       CMDLBL(MSGD)
+             ENDDO
+             RCVMSG     MSGTYPE(*EXCP) MSG(&MSG) MSGDTA(&MSGDTA) MSGID(&MSGID) MSGF(&MSGF) +
+                          MSGFLIB(&MSGL)
+             IF         COND(&MSGID *NE ' ') THEN(DO)
+                SNDUSRMSG  MSGID(&MSGID) MSGF(&MSGL/&MSGF) MSGDTA(&MSGDTA) MSGTYPE(*INFO)
+                MONMSG     MSGID(CPF0000)
+             ENDDO
+
+ FIN:        ENDPGM

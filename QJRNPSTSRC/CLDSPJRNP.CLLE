@@ -1,0 +1,35 @@
+             PGM
+             DCL        &FAILED TYPE(*DEC) LEN(10 0) VALUE(0)
+             DCL        &FAILEDSTR TYPE(*CHAR) LEN(10)
+
+             CRTPF      FILE(ODRUBIGNY/ENTJRN) SRCFILE(ODRUBIGNY/qjrnpstsrc) SRCMBR(ENTJRN) +
+                          OPTION(*EVENTF)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+                CHGVAR     VAR(&FAILED) VALUE(&FAILED + 1)
+             ENDDO
+
+             DSPFFD     FILE(ODRUBIGNY/ENTJRN) OUTPUT(*OUTFILE) OUTFILE(QTEMP/RTVPFSRC)
+
+             DSPFD      FILE(ODRUBIGNY/ENTJRN) TYPE(*ACCPTH) OUTPUT(*OUTFILE) +
+                          OUTFILE(QTEMP/RTVPFSRC1)
+
+             CRTBNDRPG  PGM(ODRUBIGNY/RTVPFSRC) SRCFILE(ODRUBIGNY/QJRNPSTSRC)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+                CHGVAR     VAR(&FAILED) VALUE(&FAILED + 1)
+             ENDDO
+
+             CRTBNDCL   PGM(ODRUBIGNY/RTVJRNPST) SRCFILE(ODRUBIGNY/qjrnpstsrc) +
+                          SRCMBR(RTVJRNPST) OPTION(*EVENTF) REPLACE(*YES) DBGVIEW(*ALL)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+                CHGVAR     VAR(&FAILED) VALUE(&FAILED + 1)
+             ENDDO
+
+             CRTCMD     SRCFILE(ODRUBIGNY/qjrnpstsrc) SRCMBR(DSPJRNPST) REPLACE(*YES) +
+                          CMD(ODRUBIGNY/DSPJRNPST) PGM(*LIBL/RTVJRNPST)
+             MONMSG     MSGID(CPF0000) EXEC(DO)
+                CHGVAR     VAR(&FAILED) VALUE(&FAILED + 1)
+             ENDDO
+
+             CHGVAR     VAR(&FAILEDSTR) VALUE(&FAILED)
+             ADDENVVAR  ENVVAR(QRB_NUMBER_FAILED) VALUE(&FAILEDSTR) REPLACE(*YES)
+             ENDPGM
