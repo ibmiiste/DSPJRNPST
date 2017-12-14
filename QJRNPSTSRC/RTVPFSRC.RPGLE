@@ -77,9 +77,7 @@
            WKN002=%Checkr(' ':WHFTXT);
            IF WKN002 > 28;
              WKA027=WHFTXT;
-             *in27=*on;
-             WKA023=WHFTXT;
-             *in23=*on;
+             Evalr WKA023=WHFTXT;
              WKA036='TEXT(''' + WKA027;
              WKA036=WKA036 + '+';
              %subst(SRCDTA:45:%Len(WKA036))=WKA036;
