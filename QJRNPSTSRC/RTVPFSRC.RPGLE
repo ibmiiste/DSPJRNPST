@@ -39,25 +39,9 @@
          *IN41 = %EOF;
          Reset SRCDTA;
          %Subst(SRCDTA:19:%len(WHFLDI))=WHFLDI;
-         XHFLDP=%char(WHFLDP);
-         XHFLDB=%char(WHFLDB);
-         XHFLDD=%char(WHFLDD);
-
-         // cadrage droite zero suppress
-         IF %Subst(XHFLDP:1:1) = '0';
-           %Subst(XHFLDP:1:1)=' ';
-         ENDIF;
-
-         For X=1 to 4;
-           y=%lookup(%subst(XHFLDB:X:1):ED1);
-           If y=0;
-             %subst(XHFLDB:X:1)=' ';
-           EndIf;
-         Endfor;
-
-         IF %Subst(XHFLDD:1:1) = '0';
-           %Subst(XHFLDD:1:1) = ' ';
-         ENDIF;
+         Evalr XHFLDP=%char(WHFLDP);
+         Evalr XHFLDB=%char(WHFLDB);
+         Evalr XHFLDD=%char(WHFLDD);
 
          SELECT;
          // zone date
