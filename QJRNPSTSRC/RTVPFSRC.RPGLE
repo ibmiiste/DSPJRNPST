@@ -91,7 +91,7 @@
              EXSR WTR;
            ELSE;
              WKA036='TEXT(''' + WHFTXT;
-             WKA036=WKA036 + ''')';
+             WKA036=%Trim(WKA036) + ''')';
              %subst(SRCDTA:45:%Len(WKA036))=WKA036;
              EXSR WTR;
            ENDIF;
@@ -103,9 +103,9 @@
            Reset WKA036;
            WKA036='COLHDG(''' + WHCHD1;
            IF WHCHD2 <> *BLANKS;
-             WKA036=WKA036 + ''' +';
+             WKA036=%Trim(WKA036) + ''' +';
            ELSE;
-             WKA036=WKA036 + ''')';
+             WKA036=%Trim(WKA036) + ''')';
            ENDIF;
            %subst(SRCDTA:45:%Len(WKA036))=WKA036;
            EXSR WTR;
@@ -117,9 +117,9 @@
            WKA036='''' + WHCHD2;
 
            IF WHCHD3 <> *BLANKS;
-             WKA036=WKA036 + ''' +';
+             WKA036=%Trim(WKA036) + ''' +';
            ELSE;
-             WKA036=WKA036 + ''')';
+             WKA036=%Trim(WKA036) + ''')';
            ENDIF;
 
            %subst(SRCDTA:45:%Len(WKA036))=WKA036;
@@ -130,7 +130,7 @@
            WHCHD3 = %xlate('''':' ':WHCHD3);
            Reset WKA036;
            WKA036='''' + WHCHD3;
-           WKA036=WKA036 +  ''')';
+           WKA036=%Trim(WKA036) +  ''')';
            %subst(SRCDTA:45:%Len(WKA036))=WKA036;
            EXSR WTR;
          ENDIF;
