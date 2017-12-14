@@ -3,7 +3,7 @@
       *   >>IMPORTANT<<                                               */
       *     >>PARM<<  PGM(&LI/&OB);                                   */
       *     >>PARM<<  OPTION(*EVENTF);                                */
-      *     >>PARM<<  DBGVIEW(*LIST);                                 */
+      *     >>PARM<<  DBGVIEW(*ALL);                                  */
       *     >>PARM<<  TRUNCNBR(*NO);                                  */
       *   >>END-IMPORTANT<<                                           */
       *   >>CMD<<  DSPFD FILE(QGPL/QDDSSRC) TYPE(*ACCPTH) +           */
