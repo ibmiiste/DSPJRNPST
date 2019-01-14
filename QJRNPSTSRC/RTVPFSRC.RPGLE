@@ -4,12 +4,13 @@
       *     >>PARM<<  PGM(&LI/&OB);                                   */
       *     >>PARM<<  OPTION(*EVENTF);                                */
       *     >>PARM<<  DBGVIEW(*ALL);                                  */
+      *     >>PARM<<  OPTIMIZE(&U0);                                  */
       *     >>PARM<<  TRUNCNBR(*NO);                                  */
       *   >>END-IMPORTANT<<                                           */
       *   >>CMD<<  DSPFD FILE(QGPL/QDDSSRC) TYPE(*ACCPTH) +           */
-      *            OUTPUT(*OUTFILE) OUTFILE(QTEMP/RTVPFSRC1);         */
+      *             OUTPUT(*OUTFILE) OUTFILE(QTEMP/RTVPFSRC1);        */
       *   >>CMD<<  DSPFFD FILE(QGPL/QDDSSRC) OUTPUT(*OUTFILE) +       */
-      *            OUTFILE(QTEMP/RTVPFSRC);                           */
+      *             OUTFILE(QTEMP/RTVPFSRC);                          */
       *   >>EXECUTE<<                                                 */
       * >>END-PRE-COMPILER<<                                          */
        /copy qcpysrc,cpyctlstm
@@ -55,6 +56,12 @@
            Reset XHFLDD;
            Reset XHFLDP;
            Reset wHFLDD;
+           Reset wHFLDP;
+         // zone Timestamp
+         WHEN WHFLDT = 'Z';
+           Reset XHFLDD;
+           Reset XHFLDP;
+           Reset WHFLDD;
            Reset wHFLDP;
          // zone alpha
          WHEN WHFLDD = 0;
