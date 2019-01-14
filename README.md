@@ -1,5 +1,5 @@
 # DSPJRNPST
-Retrieve journal post and convert it.
+Retrieve journal post and convert it.  
 AFFICHER LES POSTES DU JOURNAL DE FAÇON INTELLIGIBLE  
 DSPJRN est la commande qui permet de voir les postes du journal.   
 Et ce que l'on aime, c'est de voir le contenu de l'enregistrement concerné.  
